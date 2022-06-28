@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { fetchApi } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -22,7 +26,8 @@ class Login extends React.Component {
     }
 
     handleClick = () => {
-      console.log('click');
+      const { getQuestions } = this.props;
+      getQuestions();
     }
 
     render() {
@@ -48,7 +53,7 @@ class Login extends React.Component {
               name="email"
               type="email"
               value={ email }
-              data-testid=""
+              data-testid="input-gravatar-email"
               onChange={ this.handleChange }
             />
           </label>
@@ -61,8 +66,27 @@ class Login extends React.Component {
           >
             Play
           </button>
+          <button
+            data-testid="btn-settings"
+            className="Button"
+            type="button"
+            onClick={ () => <Redirect to="/settings" /> }
+          >
+            Configurações
+          </button>
         </div>);
     }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  getQuestions: () => dispatch(fetchApi()),
+});
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  getQuestions: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
