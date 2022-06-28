@@ -48,7 +48,7 @@ class Login extends React.Component {
               name="email"
               type="email"
               value={ email }
-              data-testid=""
+              data-testid="input-gravatar-email"
               onChange={ this.handleChange }
             />
           </label>
