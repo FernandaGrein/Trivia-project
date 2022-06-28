@@ -30,17 +30,6 @@ class Login extends React.Component {
       return (
         <div>
           <h3>Login</h3>
-          <label htmlFor="email">
-            Email:
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={ email }
-              data-testid=""
-              onChange={ this.handleChange }
-            />
-          </label>
           <label htmlFor="name">
             Nome:
             <input
@@ -49,6 +38,17 @@ class Login extends React.Component {
               type="name"
               value={ name }
               data-testid="input-player-name"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="email">
+            Email:
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={ email }
+              data-testid=""
               onChange={ this.handleChange }
             />
           </label>
