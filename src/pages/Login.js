@@ -53,7 +53,7 @@ class Login extends React.Component {
               name="email"
               type="email"
               value={ email }
-              data-testid=""
+              data-testid="input-gravatar-email"
               onChange={ this.handleChange }
             />
           </label>
@@ -77,7 +77,6 @@ class Login extends React.Component {
         </div>);
     }
 }
-// req 2
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
