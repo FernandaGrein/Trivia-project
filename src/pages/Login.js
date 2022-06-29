@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { fetchApi } from '../redux/actions/index';
+import { fetchApi, saveName } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -26,8 +25,17 @@ class Login extends React.Component {
     }
 
     handleClick = () => {
-      const { getQuestions } = this.props;
+      const { name } = this.state;
+      const { getQuestions, history, saveNamefromLogin } = this.props;
+      saveNamefromLogin(name);
       getQuestions();
+      history.push('/game');
+    }
+
+    goToSettings = () => {
+      const { history } = this.props;
+      console.log(history);
+      history.push('/settings');
     }
 
     render() {
@@ -44,6 +52,7 @@ class Login extends React.Component {
               value={ name }
               data-testid="input-player-name"
               onChange={ this.handleChange }
+              placeholder="Digite seu nome"
             />
           </label>
           <label htmlFor="email">
@@ -55,11 +64,11 @@ class Login extends React.Component {
               value={ email }
               data-testid="input-gravatar-email"
               onChange={ this.handleChange }
+              placeholder="Digite seu e-mail"
             />
           </label>
           <button
             data-testid="btn-play"
-            className="Button"
             type="button"
             disabled={ buttonDisable }
             onClick={ this.handleClick }
@@ -70,9 +79,9 @@ class Login extends React.Component {
             data-testid="btn-settings"
             className="Button"
             type="button"
-            onClick={ () => <Redirect to="/settings" /> }
+            onClick={ this.goToSettings }
           >
-            Configurações
+            settings
           </button>
         </div>);
     }
@@ -80,13 +89,16 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
+  saveNamefromLogin: (name) => dispatch(saveName(name)),
 });
 
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
+  saveNamefromLogin: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
