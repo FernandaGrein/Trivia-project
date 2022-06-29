@@ -41,13 +41,13 @@ describe('Testa o componente Login', () => {
 
         userEvent.type(email, 'teste@teste.com')
         expect(email).toHaveValue('teste@teste.com')
+        // console.log(nome, 'nome');
 
         userEvent.click(buttonEl);
         await waitFor(() => {
             expect(history.location.pathname).toBe('/game')
         }, {timeout: 3000})
       
-
        // expect(buttonEl).not.toHaveAttribute('disabled');
        
     });
@@ -59,25 +59,25 @@ describe('Testa o componente Login', () => {
         expect(settingsBtn).not.toBeDisabled();
     });
 
-    it('Teste se o botão play muda a rota para a tela de Jogo', () => {
-        renderWithRouterAndRedux(<Login />);
-        const button = screen.getByRole('button', { name: /play/i});
-        userEvent.click(button);
+    // it('Teste se o botão play muda a rota para a tela de Jogo', () => {
+    //     renderWithRouterAndRedux(<Login />);
+    //     const button = screen.getByRole('button', { name: /play/i});
+    //     userEvent.click(button);
 
         // const gameScreen = screen.getByRole('heading', { name: /Tela de Jogo/i });
         // expect(gameScreen).toBeInTheDocument();
 
-    });
-
-    // it('Teste se o botão de configurações muda a rota para tela de configurações', () => {
-    //    renderWithRouterAndRedux(<Login/>)
-    //    const confBtn = screen.getByRole('button', { name: /settings/i });
-    //    userEvent.click(confBtn)
-      
-    //   //  const title = screen.getByTestId('settings-title')
-    //   //  expect(title)
-
     // });
+
+    it('Teste se o botão de configurações muda a rota para tela de configurações', () => {
+       renderWithRouterAndRedux(<App />);
+       const confBtn = screen.getByRole('button', { name: /settings/i });
+       userEvent.click(confBtn)
+      
+       const title = screen.getByTestId('settings-title')
+       expect(title)
+
+    });
 
       
 

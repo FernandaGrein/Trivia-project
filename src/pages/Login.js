@@ -32,6 +32,7 @@ class Login extends React.Component {
 
     goToSettings = () => {
       const { history } = this.props;
+      console.log(history);
       history.push('/settings');
     }
 
@@ -90,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.string.isRequired,
+    push: PropTypes.func.isRequired,
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
 };
