@@ -1,21 +1,26 @@
-// export const ADD_PLAYER = 'ADD_PLAYER';
 export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
 export const GET_TOKEN = 'GET_TOKEN';
-
-// export const RESPONSE_CODE = '';
-
-// export const ADD_PLAYER = (param) => ({
-//     type: ADD_EMAIL,
-//     email: param,
-//   })
+export const GET_NAME = 'GET_NAME';
+export const GET_EMAIL = 'GET_EMAIL';
 
 export const ADD_QUESTIONS = (param) => ({
   type: FETCH_QUESTIONS,
   questions: param,
 });
+
 export const getToken = (token) => ({
   type: GET_TOKEN,
-  payloand: token,
+  payload: token,
+});
+
+export const saveName = (name) => ({
+  type: GET_NAME,
+  payload: name,
+});
+
+export const saveEmail = (email) => ({
+  type: GET_EMAIL,
+  payload: email,
 });
 
 // export const fetchApi = () => async (dispatch) => {

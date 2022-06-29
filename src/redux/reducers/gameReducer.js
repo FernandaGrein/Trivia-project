@@ -8,10 +8,10 @@ const INITIAL_STATE = {
 const gameReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_TOKEN:
-    localStorage.setItem('token', action.payloand);
+    localStorage.setItem('token', action.payload);
     return {
       ...state,
-      token: action.payloand,
+      token: action.payload,
     };
   default:
     return state;
