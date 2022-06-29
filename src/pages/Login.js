@@ -7,29 +7,29 @@ class Login extends React.Component {
     state = {
       name: '',
       email: '',
-      buttonDisable: true,
     }
 
     handleChange = (event) => {
       const { name, value } = event.target;
-      this.setState({ [name]: value }, () => this.enableButton());
+      this.setState({ [name]: value }); // () => this.enableButton()
     }
 
     enableButton = () => {
       const { name, email } = this.state;
       if (name.length > 0 && email.length > 0) {
-        this.setState({ buttonDisable: false });
-      } else {
-        this.setState({ buttonDisable: true });
+        //  this.setState({ buttonDisable: false });
+        return false;
       }
+      //  this.setState({ buttonDisable: true });
+      return true;
     }
 
-    handleClick = () => {
+    handleClick = async () => {
       const { name, email } = this.state;
       const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin } = this.props;
       saveNamefromLogin(name);
       saveEmailFromLogin(email);
-      getQuestions();
+      await getQuestions();
       history.push('/game');
     }
 
@@ -40,7 +40,7 @@ class Login extends React.Component {
     }
 
     render() {
-      const { name, email, buttonDisable } = this.state;
+      const { name, email } = this.state;
       return (
         <div>
           <h3>Login</h3>
@@ -49,7 +49,7 @@ class Login extends React.Component {
             <input
               id="name"
               name="name"
-              type="name"
+              type="text"
               value={ name }
               data-testid="input-player-name"
               onChange={ this.handleChange }
@@ -71,7 +71,7 @@ class Login extends React.Component {
           <button
             data-testid="btn-play"
             type="button"
-            disabled={ buttonDisable }
+            disabled={ this.enableButton() }
             onClick={ this.handleClick }
           >
             Play
