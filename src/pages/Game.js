@@ -3,7 +3,10 @@ import React from 'react';
 class TelaJogo extends React.Component {
   render() {
     return (
-      <p>tela</p>
+      <div>
+        <h1>Tela de Jogo</h1>
+        <p>teste</p>
+      </div>
     );
   }
 }

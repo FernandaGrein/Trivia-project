@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchApi } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -22,7 +25,14 @@ class Login extends React.Component {
     }
 
     handleClick = () => {
-      console.log('click');
+      const { getQuestions, history } = this.props;
+      getQuestions();
+      history.push('/Game');
+    }
+
+    goToSettings = () => {
+      const { history } = this.props;
+      history.push('/settings');
     }
 
     render() {
@@ -39,6 +49,7 @@ class Login extends React.Component {
               value={ name }
               data-testid="input-player-name"
               onChange={ this.handleChange }
+              placeholder="Digite seu nome"
             />
           </label>
           <label htmlFor="email">
@@ -50,6 +61,7 @@ class Login extends React.Component {
               value={ email }
               data-testid="input-gravatar-email"
               onChange={ this.handleChange }
+              placeholder="Digite seu e-mail"
             />
           </label>
           <button
@@ -61,8 +73,27 @@ class Login extends React.Component {
           >
             Play
           </button>
+          <button
+            data-testid="btn-settings"
+            className="Button"
+            type="button"
+            onClick={ this.goToSettings }
+          >
+            settings
+          </button>
         </div>);
     }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  getQuestions: () => dispatch(fetchApi()),
+});
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  getQuestions: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
