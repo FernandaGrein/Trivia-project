@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchApi } from '../redux/actions/index';
+import { fetchApi, saveName } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -25,7 +25,9 @@ class Login extends React.Component {
     }
 
     handleClick = () => {
-      const { getQuestions, history } = this.props;
+      const { name } = this.state;
+      const { getQuestions, history, saveNamefromLogin } = this.props;
+      saveNamefromLogin(name);
       getQuestions();
       history.push('/game');
     }
@@ -87,6 +89,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
+  saveNamefromLogin: (name) => dispatch(saveName(name)),
 });
 
 Login.propTypes = {
@@ -95,6 +98,7 @@ Login.propTypes = {
 
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
+  saveNamefromLogin: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
