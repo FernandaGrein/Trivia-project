@@ -5,24 +5,20 @@ import { PropTypes } from 'prop-types';
 import { scoreCounter } from '../redux/actions';
 
 class TelaJogo extends React.Component {
-  // componentDidMount() {
-  //   const { setScore } = this.props
-  //   set
-  // }
   // import md5 from 'crypto-js/md5';
   // const hash = md5(email).toString();
   // const URL = `https://www.gravatar.com/avatar/${hash}`;
   // response.src
 
-  // disparaAction = () => {
-  //   const { countScore } = this.props;
-  //   const timer = 10;
-  //   const dificuldade = 'hard';
-  //   countScore(timer, dificuldade);
-  //   // if (questão === true) {
-  //   //   countScore(timer, dificuldade);
-  //   // }
-  // }
+  disparaAction = () => {
+    const { countScore } = this.props;
+    const timer = 10;
+    const dificuldade = 'hard';
+    countScore(timer, dificuldade);
+    // if (questão === true) {
+    //   countScore(timer, dificuldade);
+    // }
+  }
 
   render() {
     const { name, email, placar } = this.props;
@@ -34,8 +30,8 @@ class TelaJogo extends React.Component {
             alt="Gravatar"
             data-testid="header-profile-picture"
           />
-          <p data-testid="header-player-name">{name}</p>
-          <p data-testid="header-score">{placar}</p>
+          <p data-testid="header-player-name">{name || ''}</p>
+          <p data-testid="header-score">{placar || 0}</p>
           <button type="button" onClick={ this.disparaAction }>disparar a action</button>
         </header>
       </div>
@@ -57,7 +53,7 @@ TelaJogo.propTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   placar: PropTypes.number.isRequired,
-  // countScore: PropTypes.func.isRequired,
+  countScore: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchApi, saveName, saveEmail } from '../redux/actions/index';
+import { fetchApi, saveName, saveEmail, inicialScore } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -11,24 +11,24 @@ class Login extends React.Component {
 
     handleChange = (event) => {
       const { name, value } = event.target;
-      this.setState({ [name]: value }); // () => this.enableButton()
+      this.setState({ [name]: value });
     }
 
     enableButton = () => {
       const { name, email } = this.state;
       if (name.length > 0 && email.length > 0) {
-        //  this.setState({ buttonDisable: false });
         return false;
       }
-      //  this.setState({ buttonDisable: true });
       return true;
     }
 
     handleClick = async () => {
       const { name, email } = this.state;
-      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin } = this.props;
+      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin,
+        setInicialScore } = this.props;
       saveNamefromLogin(name);
       saveEmailFromLogin(email);
+      setInicialScore();
       await getQuestions();
       history.push('/game');
     }
@@ -92,6 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
   saveNamefromLogin: (name) => dispatch(saveName(name)),
   saveEmailFromLogin: (email) => dispatch(saveEmail(email)),
+  setInicialScore: () => dispatch(inicialScore()),
 });
 
 Login.propTypes = {
@@ -102,6 +103,7 @@ Login.propTypes = {
   getQuestions: PropTypes.func.isRequired,
   saveNamefromLogin: PropTypes.func.isRequired,
   saveEmailFromLogin: PropTypes.func.isRequired,
+  setInicialScore: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
