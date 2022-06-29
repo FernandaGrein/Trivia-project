@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import Login from '../pages/Login';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
@@ -27,30 +27,53 @@ describe('Testa o componente Login', () => {
     });
 
     it('Testa se o botao Play se inicia desabilitado e depois é habilitado', async () => {
-        const { history }=renderWithRouterAndRedux(<App />);
-        const buttonEl = screen.getByRole('button', { name: /^play$/i });
-
-        expect(buttonEl).toBeInTheDocument();
-        expect(buttonEl).toBeDisabled();
-
-        const email = screen.getByTestId('input-gravatar-email');
-        const nome = screen.getByTestId('input-player-name');
-
-        userEvent.type(nome, 'maria')
-        expect(nome).toHaveValue('maria')
-
-        userEvent.type(email, 'teste@teste.com')
-        expect(email).toHaveValue('teste@teste.com')
-        // console.log(nome, 'nome');
-
-        userEvent.click(buttonEl);
-        await waitFor(() => {
-            expect(history.location.pathname).toBe('/game')
-        }, {timeout: 3000})
-      
-       // expect(buttonEl).not.toHaveAttribute('disabled');
-       
+        renderWithRouterAndRedux(<Login />);
+    
+        const button = screen.getByText(/Play/i);
+        expect(button).toBeDisabled();
+    
+        const email = screen.getByTestId('input-player-name');
+        const senha = screen.getByTestId('input-gravatar-email');
+    
+        userEvent.type(email, 'email');
+        userEvent.type(senha, '123456');
+        expect(button).toBeDisabled();
+    
+        userEvent.type(email, 'email@com@');
+        userEvent.type(senha, '123456');
+        expect(button).toBeDisabled();
+    
+        userEvent.type(email, 'emailcom@');
+        userEvent.type(senha, '123456');
+        expect(button).toBeDisabled();
+    
+        userEvent.type(email, 'alguem@email.com');
+        userEvent.type(senha, '23456');
+        expect(button).toBeDisabled();
+    
+        userEvent.type(email, 'alguem@email.');
+        userEvent.type(senha, '123456');
+        expect(button).toBeDisabled();
+    
+        userEvent.type(email, 'alguem@email.com');
+        userEvent.type(senha, '123456');
+        expect(button).not.toBeEnabled();       
     });
+
+    // it('botão', () =>{
+    //     renderWithRouterAndRedux(<App />)
+    //     const button = screen.getByRole('button', { name: /^play$/i });
+    //     expect(button).toBeDisabled();
+
+    //     const email = screen.getByTestId('input-gravatar-email');
+    //     const nome = screen.getByTestId('input-player-name');
+
+    //     userEvent.type(email, 'teste@teste')
+    //     userEvent.type(nome, 'maria')
+
+    //     expect(button).not.toBeDisabled();
+
+    // }) 
 
     it('Teste se o botão com texto de configuracao na tela', () => {
         renderWithRouterAndRedux(<Login />);
@@ -79,6 +102,17 @@ describe('Testa o componente Login', () => {
 
     });
 
-      
+    test('A rota deve ser mudada para \'/telaJogo\' após o clique no botão.', () => {
+        const { history } = renderWithRouterAndRedux(<Login />);
+        const email = screen.getByTestId('input-player-name');
+        const senha = screen.getByTestId('input-gravatar-email');
+        const button = screen.getByText(/Play/i);
+    
+        userEvent.type(email, 'alguem@email.com');
+        userEvent.type(senha, '123456');
+        fireEvent.click(button);
+    
+        expect(history.location.pathname).toBe('/');
+      });
 
 });
