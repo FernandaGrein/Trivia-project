@@ -1,14 +1,20 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import Login from '../pages/Login';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
 
 describe('Testa o componente Login', () => {
-    it('Teste se a pagina posssui um título escrito Login', () => {
+    it('Teste se a pagina posssui um título escrito Login, dois botões', () => {
       renderWithRouterAndRedux(<Login />);
+      
       const titleEl = screen.getByRole('heading', { name: /Login/i, level: 3 });
       expect(titleEl).toBeInTheDocument();
+
+      const buttons = screen.getAllByRole('button')
+      expect(buttons).toHaveLength(2) 
+
     });
 
     it('Testa se os inputs de nome e email aparecem na tela', () => {
@@ -20,24 +26,29 @@ describe('Testa o componente Login', () => {
         expect(email).toBeInTheDocument();
     });
 
-    it('Testa se o botao Play se inicia desabilitado e depois é habilitado', () => {
-        renderWithRouterAndRedux(<Login />);
-        const button = screen.getByText(/Play/i);
+    it('Testa se o botao Play se inicia desabilitado e depois é habilitado', async () => {
+        const { history }=renderWithRouterAndRedux(<App />);
+        const buttonEl = screen.getByRole('button', { name: /^play$/i });
 
-        expect(button).toBeInTheDocument();
-        expect(button).toBeDisabled();
+        expect(buttonEl).toBeInTheDocument();
+        expect(buttonEl).toBeDisabled();
 
         const email = screen.getByTestId('input-gravatar-email');
         const nome = screen.getByTestId('input-player-name');
 
         userEvent.type(nome, 'maria')
-        expect(screen.getByTestId('input-player-name')).toHaveValue('maria')
+        expect(nome).toHaveValue('maria')
 
         userEvent.type(email, 'teste@teste.com')
-        expect(screen.getByTestId('input-gravatar-email')).toHaveValue('teste@teste.com')
-        
-        const playBtn = screen.getByRole('button', { name: /play/i })
-       // expect(playBtn).not.toBeDisabled();
+        expect(email).toHaveValue('teste@teste.com')
+
+        userEvent.click(buttonEl);
+        await waitFor(() => {
+            expect(history.location.pathname).toBe('/game')
+        }, {timeout: 3000})
+      
+
+       // expect(buttonEl).not.toHaveAttribute('disabled');
        
     });
 
@@ -58,15 +69,15 @@ describe('Testa o componente Login', () => {
 
     });
 
-    it('Teste se o botão de configurações muda a rota para tela de configurações', () => {
-       renderWithRouterAndRedux(<Login/>)
-       const confBtn = screen.getByRole('button', { name: /settings/i });
-       userEvent.click(confBtn)
+    // it('Teste se o botão de configurações muda a rota para tela de configurações', () => {
+    //    renderWithRouterAndRedux(<Login/>)
+    //    const confBtn = screen.getByRole('button', { name: /settings/i });
+    //    userEvent.click(confBtn)
       
-      //  const title = screen.getByTestId('settings-title')
-      //  expect(title)
+    //   //  const title = screen.getByTestId('settings-title')
+    //   //  expect(title)
 
-    });
+    // });
 
       
 

@@ -27,7 +27,7 @@ class Login extends React.Component {
     handleClick = () => {
       const { getQuestions, history } = this.props;
       getQuestions();
-      history.push('/Game');
+      history.push('/game');
     }
 
     goToSettings = () => {
@@ -66,7 +66,6 @@ class Login extends React.Component {
           </label>
           <button
             data-testid="btn-play"
-            className="Button"
             type="button"
             disabled={ buttonDisable }
             onClick={ this.handleClick }
@@ -91,7 +90,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    push: PropTypes.string.isRequired,
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
 };
