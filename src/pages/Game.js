@@ -2,6 +2,7 @@ import React from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import Quiz from '../components/Quiz';
 
 class TelaJogo extends React.Component {
   state = {
@@ -27,6 +28,7 @@ class TelaJogo extends React.Component {
           <p data-testid="header-player-name">{name}</p>
           <p>{placar}</p>
         </header>
+        <Quiz />
       </div>
     );
   }
