@@ -93,6 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveNamefromLogin: (name) => dispatch(saveName(name)),
   saveEmailFromLogin: (email) => dispatch(saveEmail(email)),
   setInicialScore: () => dispatch(inicialScore()),
+
 });
 
 Login.propTypes = {
@@ -102,8 +103,10 @@ Login.propTypes = {
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
   saveNamefromLogin: PropTypes.func.isRequired,
+
   saveEmailFromLogin: PropTypes.func.isRequired,
   setInicialScore: PropTypes.func.isRequired,
+
 };
 
 export default connect(null, mapDispatchToProps)(Login);

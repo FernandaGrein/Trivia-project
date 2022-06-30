@@ -3,8 +3,10 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { scoreCounter } from '../redux/actions';
+import Quiz from '../components/Quiz';
 
 class TelaJogo extends React.Component {
+
   // import md5 from 'crypto-js/md5';
   // const hash = md5(email).toString();
   // const URL = `https://www.gravatar.com/avatar/${hash}`;
@@ -34,6 +36,7 @@ class TelaJogo extends React.Component {
           <p data-testid="header-score">{placar || 0}</p>
           <button type="button" onClick={ this.disparaAction }>disparar a action</button>
         </header>
+        <Quiz />
       </div>
     );
   }
@@ -57,3 +60,5 @@ TelaJogo.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);
+
+};
