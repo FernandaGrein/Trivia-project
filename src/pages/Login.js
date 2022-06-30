@@ -24,11 +24,9 @@ class Login extends React.Component {
 
     handleClick = async () => {
       const { name, email } = this.state;
-      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin,
-        setInicialScore } = this.props;
+      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin } = this.props; // setInicialScore
       saveNamefromLogin(name);
       saveEmailFromLogin(email);
-      setInicialScore();
       await getQuestions();
       history.push('/game');
     }
@@ -105,7 +103,7 @@ Login.propTypes = {
   saveNamefromLogin: PropTypes.func.isRequired,
 
   saveEmailFromLogin: PropTypes.func.isRequired,
-  setInicialScore: PropTypes.func.isRequired,
+  // setInicialScore: PropTypes.func.isRequired,
 
 };
 

@@ -1,7 +1,6 @@
-import { COUNT_SCORE, GET_EMAIL, GET_NAME, INICIAL_SCORE } from '../actions';
+import { GET_NAME, COUNT_SCORE, GET_EMAIL, INICIAL_SCORE } from '../actions';
 
 const FIXED_VALUE = 10;
-
 
 const INITIAL_STATE = {
   name: '',
@@ -17,7 +16,7 @@ const playerReducer = (state = INITIAL_STATE, action) => {
       ...state,
       name: action.payload,
     };
- 
+
   case GET_EMAIL:
     return {
       ...state,

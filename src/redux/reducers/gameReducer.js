@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   questions: {},
   token: '',
   resposta: [],
+  responseMessage: '',
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {
@@ -15,17 +16,15 @@ const gameReducer = (state = INITIAL_STATE, action) => {
       token: action.payload,
     };
   case FETCH_QUESTIONS:
-    console.log(action.payload)
     return {
       ...state,
       questions: action.payload,
-    }
+    };
   case GET_RESPOSTA:
-    console.log(action.payload)
     return {
       ...state,
       resposta: action.payload,
-    }
+    };
   default:
     return state;
   }
