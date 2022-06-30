@@ -4,76 +4,128 @@ import { connect } from 'react-redux';
 import { quizApi } from '../redux/actions/index';
 
 class Quiz extends React.Component {
-    state = {
-      // codeResponse: 0,
-      answers: [],
-      // questions: [],
-      // questionNumber: 0,
+  state = {
+    // codeResponse: 0,
+    answers: [],
+    // questions: [],
+    // questionNumber: 0,
+    index: 0,
+  }
+
+  async componentDidMount() {
+    const { recebeQuiz, token } = this.props;
+    recebeQuiz(token);
+    this.makeAnswersArray();
+  }
+
+  makeAnswersArray = () => {
+    const { index } = this.state;
+    const { questions } = this.props;
+    const array = [];
+    const responseObj = {
+      test: 'correct-answer',
+      resposta: questions.results[index].correct_answer,
+    };
+    array.push(responseObj);
+
+    const objErro1 = {
+      test: 'wrong-answer-0',
+      resposta: questions.results[index].incorrect_answers[0],
+    };
+    array.push(objErro1);
+
+    const objErro2 = {
+      test: 'wrong-answer-1',
+      resposta: questions.results[index].incorrect_answers[1],
+    };
+    array.push(objErro2);
+
+    const objErro3 = {
+      test: 'wrong-answer-2',
+      resposta: questions.results[index].incorrect_answers[2],
+    };
+    array.push(objErro3);
+
+    const meio = 0.5;
+    const randomArray = array.sort(() => Math.random() - meio);
+
+    this.setState({ answers: randomArray });
+  }
+
+  handleAnswerClick = () => {
+    console.log('clicou resposta');
+  }
+
+  handleNextClick = () => {
+    const { index } = this.state;
+    const maxIndex = 4;
+    let count;
+    if (index < maxIndex) {
+      count = index + 1;
     }
 
-    async componentDidMount() {
-      const { recebeQuiz, token, questions } = this.props;
-      recebeQuiz(token);
-      const array = [];
-      const responseObj = {
-        test: 'data-testid="correct-answer"',
-        resposta: questions.results[0].correct_answer,
-      };
-      array.push(responseObj);
-
-      const objErro1 = {
-        test: `data-testid="wrong-answer-${0}"`,
-        resposta: questions.results[0].incorrect_answers[0],
-      };
-      array.push(objErro1);
-
-      const objErro2 = {
-        test: `data-testid="wrong-answer-${1}"`,
-        resposta: questions.results[0].incorrect_answers[1],
-      };
-      array.push(objErro2);
-
-      const objErro3 = {
-        test: `data-testid="wrong-answer-${2}"`,
-        resposta: questions.results[0].incorrect_answers[2],
-      };
-      array.push(objErro3);
-      const meio = 0.5;
-      console.log('array1 ', array);
-      const randomArray = array.sort(() => Math.random() - meio);// sort no array
-
-      console.log(randomArray);
-      this.setState({ answers: array });
+    if (index === maxIndex) {
+      console.log('history.push(/feedback)');
     }
-
-  handleClick = () => {
-    console.log('clicou');
+    console.log(count);
+    this.setState({ index: count }, () => this.makeAnswersArray());
   }
 
   render() {
     const { questions } = this.props;
-    const { answers } = this.state;
-    console.log(answers);
+    const { answers, index } = this.state;
     return (
       <div>
         { questions.results.length > 0 && (
-          <div>
-            <p data-testid="question-text">{ questions.results[0].question }</p>
-            <p>{ questions.results[0].difficulty }</p>
-            <p data-testid="question-category">{ questions.results[0].category }</p>
-
-            <button
-              type="button"
-              onClick={ this.handleClick }
-            >
-              {}
-
-            </button>
-            {/* <button>{}</button>
-            <button>{}</button>
-            <button>{}</button> */}
-          </div>
+          <>
+            <p data-testid="question-text">{ questions.results[index].question }</p>
+            <p>{ questions.results[index].difficulty }</p>
+            <p data-testid="question-category">{ questions.results[index].category }</p>
+          </>
         )}
+        { answers.length > 0
+              && (
+                <>
+                  <button
+                    type="button"
+                    onClick={ this.handleAnswerClick }
+                    data-testid={ answers[0].test }
+                  >
+                    {answers[0].resposta}
+
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ this.handleAnswerClick }
+                    data-testid={ answers[1].test }
+                  >
+                    {answers[1].resposta}
+
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ this.handleAnswerClick }
+                    data-testid={ answers[2].test }
+                  >
+                    {answers[2].resposta}
+
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ this.handleAnswerClick }
+                    data-testid={ answers[3].test }
+                  >
+                    {answers[3].resposta}
+
+                  </button>
+                </>)}
+        <button
+          type="button"
+          onClick={ this.handleNextClick }
+        >
+          Proxima questão
+
+        </button>
       </div>
     );
   }
