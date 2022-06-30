@@ -1,34 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchApi, saveName } from '../redux/actions/index';
+import { fetchApi, saveName, saveEmail, inicialScore } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
       name: '',
       email: '',
-      buttonDisable: true,
     }
 
     handleChange = (event) => {
       const { name, value } = event.target;
-      this.setState({ [name]: value }, () => this.enableButton());
+      this.setState({ [name]: value });
     }
 
     enableButton = () => {
       const { name, email } = this.state;
       if (name.length > 0 && email.length > 0) {
-        this.setState({ buttonDisable: false });
-      } else {
-        this.setState({ buttonDisable: true });
+        return false;
       }
+      return true;
     }
 
-    handleClick = () => {
-      const { name } = this.state;
-      const { getQuestions, history, saveNamefromLogin } = this.props;
+    handleClick = async () => {
+      const { name, email } = this.state;
+      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin,
+        setInicialScore } = this.props;
       saveNamefromLogin(name);
-      getQuestions();
+      saveEmailFromLogin(email);
+      setInicialScore();
+      await getQuestions();
       history.push('/game');
     }
 
@@ -39,7 +40,7 @@ class Login extends React.Component {
     }
 
     render() {
-      const { name, email, buttonDisable } = this.state;
+      const { name, email } = this.state;
       return (
         <div>
           <h3>Login</h3>
@@ -48,7 +49,7 @@ class Login extends React.Component {
             <input
               id="name"
               name="name"
-              type="name"
+              type="text"
               value={ name }
               data-testid="input-player-name"
               onChange={ this.handleChange }
@@ -70,7 +71,7 @@ class Login extends React.Component {
           <button
             data-testid="btn-play"
             type="button"
-            disabled={ buttonDisable }
+            disabled={ this.enableButton() }
             onClick={ this.handleClick }
           >
             Play
@@ -90,6 +91,9 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
   saveNamefromLogin: (name) => dispatch(saveName(name)),
+  saveEmailFromLogin: (email) => dispatch(saveEmail(email)),
+  setInicialScore: () => dispatch(inicialScore()),
+
 });
 
 Login.propTypes = {
@@ -99,6 +103,21 @@ Login.propTypes = {
   }).isRequired,
   getQuestions: PropTypes.func.isRequired,
   saveNamefromLogin: PropTypes.func.isRequired,
+
+  saveEmailFromLogin: PropTypes.func.isRequired,
+  setInicialScore: PropTypes.func.isRequired,
+
 };
 
 export default connect(null, mapDispatchToProps)(Login);
+
+// no Component did mount
+// fazer um array de objetos com a chave
+// data-testid + chave resposta
+
+// fazer um shuffler (pode ser com random)
+
+// renderizar nos botões esse array separando o data-testid e a resposta
+// cada um em seu lugar
+
+// - para passar as questions - clicar no botão 'next' que troca o index da questão na tela
