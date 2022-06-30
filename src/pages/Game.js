@@ -6,7 +6,6 @@ import { scoreCounter } from '../redux/actions';
 import Quiz from '../components/Quiz';
 
 class TelaJogo extends React.Component {
-
   // import md5 from 'crypto-js/md5';
   // const hash = md5(email).toString();
   // const URL = `https://www.gravatar.com/avatar/${hash}`;
@@ -60,5 +59,3 @@ TelaJogo.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);
-
-};
