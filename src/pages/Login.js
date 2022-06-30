@@ -107,3 +107,14 @@ Login.propTypes = {
 };
 
 export default connect(null, mapDispatchToProps)(Login);
+
+// no Component did mount
+// fazer um array de objetos com a chave
+// data-testid + chave resposta
+
+// fazer um shuffler (pode ser com random)
+
+// renderizar nos botões esse array separando o data-testid e a resposta
+// cada um em seu lugar
+
+// - para passar as questions - clicar no botão 'next' que troca o index da questão na tela
