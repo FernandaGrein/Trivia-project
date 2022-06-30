@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   questions: {},
   token: '',
   resposta: [],
+  responseMessage: '',
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {

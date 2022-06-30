@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { quizApi } from '../redux/actions/index';
 
 class Quiz extends React.Component {
@@ -10,17 +11,27 @@ class Quiz extends React.Component {
     // questions: [],
     // questionNumber: 0,
     index: 0,
+    tokenLength: 64,
   }
 
   async componentDidMount() {
-    const { recebeQuiz, token } = this.props;
-    recebeQuiz(token);
-    this.makeAnswersArray();
+    const { recebeQuiz, token, resposta } = this.props;
+    // const tokenLength = 64;
+
+    // if (token.length !== tokenLength) {
+    //   console.log('no if');
+    //   localStorage.removeItem('token');
+    //   history.push('/');
+    // }
+    this.setState({ answers: resposta });
+    // this.makeAnswersArray();
+    await recebeQuiz(token);
   }
 
   makeAnswersArray = () => {
     const { index } = this.state;
     const { questions } = this.props;
+    // console.log('chamada questões', questions);
     const array = [];
     const responseObj = {
       test: 'correct-answer',
@@ -50,6 +61,7 @@ class Quiz extends React.Component {
     const randomArray = array.sort(() => Math.random() - meio);
 
     this.setState({ answers: randomArray });
+    // console.log('array resposta', answers);
   }
 
   handleAnswerClick = () => {
@@ -72,53 +84,58 @@ class Quiz extends React.Component {
   }
 
   render() {
-    const { questions } = this.props;
-    const { answers, index } = this.state;
+    const { questions, token } = this.props;
+    const { answers, index, tokenLength } = this.state;
+
+    // console.log('dentro do render - questão', questions);
+    // console.log('dentro do render - resposrta', answers);
     return (
       <div>
-        { questions.results.length > 0 && (
+        { token.length !== tokenLength && (
+          localStorage.removeItem('token'), <Redirect to="/" />
+        )}
+        { questions.results && (
           <>
             <p data-testid="question-text">{ questions.results[index].question }</p>
             <p>{ questions.results[index].difficulty }</p>
             <p data-testid="question-category">{ questions.results[index].category }</p>
           </>
         )}
-        { answers.length > 0
-              && (
-                <>
-                  <button
-                    type="button"
-                    onClick={ this.handleAnswerClick }
-                    data-testid={ answers[0].test }
-                  >
-                    {answers[0].resposta}
+        { answers.length > 0 && (
+          <>
+            <button
+              type="button"
+              onClick={ this.handleAnswerClick }
+              data-testid={ answers[0].test }
+            >
+              {answers[0].resposta}
 
-                  </button>
-                  <button
-                    type="button"
-                    onClick={ this.handleAnswerClick }
-                    data-testid={ answers[1].test }
-                  >
-                    {answers[1].resposta}
+            </button>
+            <button
+              type="button"
+              onClick={ this.handleAnswerClick }
+              data-testid={ answers[1].test }
+            >
+              {answers[1].resposta}
 
-                  </button>
-                  <button
-                    type="button"
-                    onClick={ this.handleAnswerClick }
-                    data-testid={ answers[2].test }
-                  >
-                    {answers[2].resposta}
+            </button>
+            <button
+              type="button"
+              onClick={ this.handleAnswerClick }
+              data-testid={ answers[2].test }
+            >
+              {answers[2].resposta}
 
-                  </button>
-                  <button
-                    type="button"
-                    onClick={ this.handleAnswerClick }
-                    data-testid={ answers[3].test }
-                  >
-                    {answers[3].resposta}
+            </button>
+            <button
+              type="button"
+              onClick={ this.handleAnswerClick }
+              data-testid={ answers[3].test }
+            >
+              {answers[3].resposta}
 
-                  </button>
-                </>)}
+            </button>
+          </>)}
         <button
           type="button"
           onClick={ this.handleNextClick }
@@ -145,7 +162,8 @@ Quiz.propTypes = {
   token: PropTypes.string.isRequired,
   recebeQuiz: PropTypes.func.isRequired,
   questions: PropTypes.shape(Object).isRequired,
-  // resposta: PropTypes.arrayOf(Object).isRequired,
+  resposta: PropTypes.arrayOf(Object).isRequired,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
