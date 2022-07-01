@@ -4,6 +4,7 @@ import './App.css';
 import Login from './pages/Login';
 import TelaJogo from './pages/Game';
 import Settings from './pages/Settings';
+import FeedBack from './pages/Feedback';
 
 export default function App() {
   return (
@@ -21,6 +22,10 @@ export default function App() {
         <Route
           path="/game"
           component={ TelaJogo }
+        />
+        <Route
+          path="/feedback"
+          component={ FeedBack }
         />
       </Switch>
     </div>
