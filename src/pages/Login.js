@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchApi, saveName, saveEmail, inicialScore } from '../redux/actions/index';
+import { fetchApi, saveName, saveEmail, quizApi } from '../redux/actions/index';
 
 class Login extends React.Component {
     state = {
@@ -24,7 +24,8 @@ class Login extends React.Component {
 
     handleClick = async () => {
       const { name, email } = this.state;
-      const { getQuestions, history, saveNamefromLogin, saveEmailFromLogin } = this.props; // setInicialScore
+      const { getQuestions, saveNamefromLogin, saveEmailFromLogin,
+        history } = this.props;
       saveNamefromLogin(name);
       saveEmailFromLogin(email);
       await getQuestions();
@@ -33,7 +34,6 @@ class Login extends React.Component {
 
     goToSettings = () => {
       const { history } = this.props;
-      console.log(history);
       history.push('/settings');
     }
 
@@ -90,8 +90,14 @@ const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchApi()),
   saveNamefromLogin: (name) => dispatch(saveName(name)),
   saveEmailFromLogin: (email) => dispatch(saveEmail(email)),
-  setInicialScore: () => dispatch(inicialScore()),
+  recebeQuiz: (token) => dispatch(quizApi(token)),
 
+});
+
+const mapStateToProps = (state) => ({
+  questions: state.gameReducer.questions,
+  resposta: state.gameReducer.resposta,
+  token: state.gameReducer.token,
 });
 
 Login.propTypes = {
@@ -103,19 +109,7 @@ Login.propTypes = {
   saveNamefromLogin: PropTypes.func.isRequired,
 
   saveEmailFromLogin: PropTypes.func.isRequired,
-  // setInicialScore: PropTypes.func.isRequired,
 
 };
 
-export default connect(null, mapDispatchToProps)(Login);
-
-// no Component did mount
-// fazer um array de objetos com a chave
-// data-testid + chave resposta
-
-// fazer um shuffler (pode ser com random)
-
-// renderizar nos botões esse array separando o data-testid e a resposta
-// cada um em seu lugar
-
-// - para passar as questions - clicar no botão 'next' que troca o index da questão na tela
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

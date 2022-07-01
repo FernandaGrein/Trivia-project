@@ -4,6 +4,7 @@ export const GET_NAME = 'GET_NAME';
 export const GET_EMAIL = 'GET_EMAIL';
 export const COUNT_SCORE = 'COUNT_SCORE';
 export const INICIAL_SCORE = 'INICIAL_SCORE';
+export const COUNTER_INDEX = 'COUNTER_INDEX';
 
 const HARD_QUESTIONS = 3;
 const MEDIUM_QUESTIONS = 2;
@@ -56,7 +57,6 @@ export const scoreCounter = (timer, dificuldade) => (dispatch) => {
     console.log('easy if');
     num = EASY_QUESTIONS;
   }
-  console.log(num);
   return dispatch(count(timer, num));
 };
 
@@ -69,50 +69,22 @@ export const fetchApi = () => async (dispatch) => {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
     const { token } = json;
-    console.log(json);
     return dispatch(getToken(token));
   } catch (error) {
     console.log(error);
   }
 };
 
-const respostaApi = [];
-const meio = 0.5;
+export const counterIndex = () => ({
+  type: COUNTER_INDEX,
+});
 
 export const quizApi = (token) => async (dispatch) => {
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const json = await response.json();
+    await dispatch(saveResposta(json));
 
-    const responseObj = {
-      test: 'correct-answer',
-      resposta: json.results[0].correct_answer,
-    };
-
-    respostaApi.push(responseObj);
-
-    const objErro1 = {
-      test: `wrong-answer-${0}`,
-      resposta: json.results[0].incorrect_answers[0],
-    };
-
-    respostaApi.push(objErro1);
-
-    const objErro2 = {
-      test: `wrong-answer-${1}`,
-      resposta: json.results[0].incorrect_answers[1],
-    };
-
-    respostaApi.push(objErro2);
-
-    const objErro3 = {
-      test: `wrong-answer-${2}`,
-      resposta: json.results[0].incorrect_answers[2],
-    };
-
-    respostaApi.push(objErro3);
-
-    dispatch(saveResposta(respostaApi.sort(() => Math.random() - meio)));
     return dispatch(ADD_QUESTIONS(json));
   } catch (error) {
     console.log(error);
