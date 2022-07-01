@@ -3,7 +3,8 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { quizApi, scoreCounter, saveResposta } from '../redux/actions/index';
+import { quizApi, scoreCounter, saveResposta,
+  countAssertions } from '../redux/actions/index';
 import QuestCard from '../components/QuestCard';
 import Timer from '../components/Timer';
 
@@ -58,8 +59,10 @@ class TelaJogo extends React.Component {
 
   handleAnswerClick = ({ target }) => {
     const { id, name } = target;
+    const { AssertionsCounter } = this.props;
     this.disabledButtonAndTimer();
     this.setState({ targetId: id, targetName: name });
+    AssertionsCounter(id);
   }
 
   counterScore = () => {
@@ -139,6 +142,7 @@ const mapDispatchToProps = (dispatch) => ({
   recebeQuiz: (token) => dispatch(quizApi(token)),
   countScore: (timer, dificuldade) => dispatch(scoreCounter(timer, dificuldade)),
   indexCounter: (json) => dispatch(saveResposta(json)),
+  AssertionsCounter: (status) => dispatch(countAssertions(status)),
 });
 
 TelaJogo.propTypes = {
@@ -153,6 +157,7 @@ TelaJogo.propTypes = {
     push: PropTypes.func.isRequired,
 
   }).isRequired,
+  AssertionsCounter: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);

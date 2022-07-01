@@ -1,4 +1,4 @@
-import { GET_NAME, COUNT_SCORE, GET_EMAIL } from '../actions';
+import { GET_NAME, COUNT_SCORE, GET_EMAIL, COUNT_ASSERTIONS } from '../actions';
 
 const FIXED_VALUE = 10;
 
@@ -28,7 +28,14 @@ const player = (state = INITIAL_STATE, action) => {
       score: state.score + FIXED_VALUE + (action
         .payload.timer * action.payload.num),
     };
-
+  case COUNT_ASSERTIONS:
+    if (action.payload === 'certo') {
+      return {
+        ...state,
+        assertions: state.assertions + 1,
+      };
+    }
+    return { ...state };
   default:
     return state;
   }
