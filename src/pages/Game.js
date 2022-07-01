@@ -5,11 +5,17 @@ import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { quizApi, scoreCounter, saveResposta } from '../redux/actions/index';
 import QuestCard from '../components/QuestCard';
+import Timer from '../components/Timer';
 
 class TelaJogo extends React.Component {
   state = {
     answers: [],
     index: 0,
+    disabled: false,
+    showTimer: true,
+    timer: 0,
+    targetId: 0,
+    targetName: '',
   }
 
   async componentDidMount() {
@@ -40,12 +46,26 @@ class TelaJogo extends React.Component {
     this.setState({ answers: newArray });
   }
 
+  disabledButtonAndTimer = () => {
+    this.setState({ disabled: true, showTimer: false });
+  }
+
+  saveTimer = (timer) => {
+    // console.log(timer);
+    this.setState({ timer }, () => this.counterScore());
+  }
+
   handleAnswerClick = ({ target }) => {
+    const { id, name } = target;
+    this.disabledButtonAndTimer();
+    this.setState({ targetId: id, targetName: name });
+  }
+
+  counterScore = () => {
     const { countScore } = this.props;
-    const timer = 10;
-    const { id, difficulty } = target;
-    if (id === 'correct-answer') {
-      countScore(timer, difficulty);
+    const { timer, targetId, targetName } = this.state;
+    if (targetId === 'certo') {
+      countScore(timer, targetName);
     }
   }
 
@@ -56,12 +76,12 @@ class TelaJogo extends React.Component {
       history.push('/feedback');
     }
 
-    this.setState({ index: index + 1 });
+    this.setState({ index: index + 1, disabled: false, showTimer: true });
   }
 
   render() {
     const { name, email, placar, token } = this.props;
-    const { index, answers } = this.state;
+    const { index, answers, disabled, showTimer } = this.state;
 
     return (
       <div>
@@ -82,8 +102,13 @@ class TelaJogo extends React.Component {
             <QuestCard
               question={ answers[index] }
               handleAskClick={ this.handleAnswerClick }
+              disabled={ disabled }
             />
           ) }
+          {showTimer === true ? <Timer
+            disabledButton={ this.disabledButton }
+            saveTimer={ this.saveTimer }
+          /> : null}
           <button
             type="button"
             onClick={ this.handleNextClick }

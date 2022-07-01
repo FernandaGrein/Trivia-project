@@ -75,10 +75,6 @@ export const fetchApi = () => async (dispatch) => {
   }
 };
 
-export const counterIndex = () => ({
-  type: COUNTER_INDEX,
-});
-
 export const quizApi = (token) => async (dispatch) => {
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);

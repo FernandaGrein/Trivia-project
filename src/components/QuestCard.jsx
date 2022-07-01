@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 
 class QuestCard extends React.Component {
   render() {
-    const { question, handleAskClick } = this.props;
+    const { question, handleAskClick, disabled } = this.props;
 
     return (
       <>
@@ -20,6 +20,7 @@ class QuestCard extends React.Component {
                 data-testid={ item.test }
                 id={ item.status }
                 name={ question.difficulty }
+                disabled={ disabled }
               >
                 {item.resp}
 
@@ -38,6 +39,7 @@ QuestCard.propTypes = {
     totalResp: PropTypes.arrayOf(Object),
   }).isRequired,
   handleAskClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default QuestCard;
