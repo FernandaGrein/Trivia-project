@@ -1,4 +1,4 @@
-import { GET_NAME, COUNT_SCORE, GET_EMAIL, INICIAL_SCORE } from '../actions';
+import { GET_NAME, COUNT_SCORE, GET_EMAIL } from '../actions';
 
 const FIXED_VALUE = 10;
 
@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-const playerReducer = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_NAME:
     return {
@@ -21,11 +21,6 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       gravatarEmail: action.payload,
-    };
-  case INICIAL_SCORE:
-    return {
-      ...state,
-      score: 0,
     };
   case COUNT_SCORE:
     return {
@@ -39,4 +34,4 @@ const playerReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default playerReducer;
+export default player;

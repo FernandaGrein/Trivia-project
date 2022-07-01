@@ -16,6 +16,7 @@ class TelaJogo extends React.Component {
     timer: 0,
     targetId: 0,
     targetName: '',
+    buttonNext: false,
   }
 
   async componentDidMount() {
@@ -47,7 +48,7 @@ class TelaJogo extends React.Component {
   }
 
   disabledButtonAndTimer = () => {
-    this.setState({ disabled: true, showTimer: false });
+    this.setState({ disabled: true, showTimer: false, buttonNext: true });
   }
 
   saveTimer = (timer) => {
@@ -66,7 +67,9 @@ class TelaJogo extends React.Component {
     const { timer, targetId, targetName } = this.state;
     if (targetId === 'certo') {
       countScore(timer, targetName);
+      this.setState({ targetId: 0, targetName: '' });
     }
+    this.setState({ targetId: 0, targetName: '' });
   }
 
   handleNextClick = () => {
@@ -81,7 +84,7 @@ class TelaJogo extends React.Component {
 
   render() {
     const { name, email, placar, token } = this.props;
-    const { index, answers, disabled, showTimer } = this.state;
+    const { index, answers, disabled, showTimer, buttonNext } = this.state;
 
     return (
       <div>
@@ -106,16 +109,18 @@ class TelaJogo extends React.Component {
             />
           ) }
           {showTimer === true ? <Timer
-            disabledButton={ this.disabledButton }
+            disabledButton={ this.disabledButtonAndTimer }
             saveTimer={ this.saveTimer }
           /> : null}
-          <button
-            type="button"
-            onClick={ this.handleNextClick }
-          >
-            Proxima questão
+          { buttonNext && (
+            <button
+              data-testid="btn-next"
+              type="button"
+              onClick={ this.handleNextClick }
+            >
+              Proxima questão
 
-          </button>
+            </button>)}
         </div>
       </div>
     );
@@ -123,9 +128,9 @@ class TelaJogo extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  name: state.playerReducer.name,
-  email: state.playerReducer.gravatarEmail,
-  placar: state.playerReducer.score,
+  name: state.player.name,
+  email: state.player.gravatarEmail,
+  placar: state.player.score,
   questions: state.gameReducer.questions,
   token: state.gameReducer.token,
 });

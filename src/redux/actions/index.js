@@ -3,7 +3,6 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_NAME = 'GET_NAME';
 export const GET_EMAIL = 'GET_EMAIL';
 export const COUNT_SCORE = 'COUNT_SCORE';
-export const INICIAL_SCORE = 'INICIAL_SCORE';
 export const COUNTER_INDEX = 'COUNTER_INDEX';
 
 const HARD_QUESTIONS = 3;
@@ -59,10 +58,6 @@ export const scoreCounter = (timer, dificuldade) => (dispatch) => {
   }
   return dispatch(count(timer, num));
 };
-
-export const inicialScore = () => ({
-  type: INICIAL_SCORE,
-});
 
 export const fetchApi = () => async (dispatch) => {
   try {
