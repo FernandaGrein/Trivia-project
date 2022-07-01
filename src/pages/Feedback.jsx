@@ -22,18 +22,24 @@ class FeedBack extends React.Component {
 
   render() {
     const { message } = this.state;
-    const { email, name, placar } = this.props;
+    const { email, name, placar, points } = this.props;
     console.log(message);
     return (
       <div data-testid="feedback-text">
-        <img
-          src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
-          alt={ email }
-          data-testid="header-profile-picture"
-        />
-        <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">{ placar }</p>
-        <p data-testid="feedback-text">{message}</p>
+        <header>
+          <img
+            src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+            alt={ email }
+            data-testid="header-profile-picture"
+          />
+          <p data-testid="header-player-name">{ name }</p>
+          <p data-testid="header-score">{ placar }</p>
+          <p data-testid="feedback-text">{message}</p>
+        </header>
+        <div>
+          <p data-testid="feedback-total-question">{points}</p>
+          <p data-testid="feedback-total-score">{placar}</p>
+        </div>
       </div>);
   }
 }
