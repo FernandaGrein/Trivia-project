@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import TelaJogo from './pages/Game';
 import Settings from './pages/Settings';
 import FeedBack from './pages/Feedback';
+import Ranking from './pages/Ranking';
 
 export default function App() {
   return (
@@ -26,6 +27,10 @@ export default function App() {
         <Route
           path="/feedback"
           component={ FeedBack }
+        />
+        <Route
+          path="/ranking"
+          component={ Ranking }
         />
       </Switch>
     </div>
