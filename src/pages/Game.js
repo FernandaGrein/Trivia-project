@@ -16,6 +16,7 @@ class TelaJogo extends React.Component {
     timer: 0,
     targetId: 0,
     targetName: '',
+    color: false,
   }
 
   async componentDidMount() {
@@ -30,11 +31,13 @@ class TelaJogo extends React.Component {
         difficulty: item.difficulty,
         respostaCerta: { test: 'correct-answer',
           resp: item.correct_answer,
-          status: 'certo' },
+          status: 'certo',
+        },
         respostaFalsa: item.incorrect_answers
           .map((AddErr, index) => ({ test: `wrong-answer-${index}`,
             resp: AddErr,
-            status: 'errado' })),
+            status: 'errado',
+          })),
       };
       const responseObj2 = { ...responseObj,
         totalResp: [...responseObj.respostaFalsa, responseObj
@@ -51,14 +54,15 @@ class TelaJogo extends React.Component {
   }
 
   saveTimer = (timer) => {
-    // console.log(timer);
     this.setState({ timer }, () => this.counterScore());
   }
 
   handleAnswerClick = ({ target }) => {
     const { id, name } = target;
+
     this.disabledButtonAndTimer();
-    this.setState({ targetId: id, targetName: name });
+
+    this.setState({ targetId: id, targetName: name, color: true });
   }
 
   counterScore = () => {
@@ -76,12 +80,12 @@ class TelaJogo extends React.Component {
       history.push('/feedback');
     }
 
-    this.setState({ index: index + 1, disabled: false, showTimer: true });
+    this.setState({ index: index + 1, disabled: false, showTimer: true, color: false });
   }
 
   render() {
     const { name, email, placar, token } = this.props;
-    const { index, answers, disabled, showTimer } = this.state;
+    const { index, answers, disabled, showTimer, color, targetId } = this.state;
 
     return (
       <div>
@@ -103,6 +107,8 @@ class TelaJogo extends React.Component {
               question={ answers[index] }
               handleAskClick={ this.handleAnswerClick }
               disabled={ disabled }
+              color={ color }
+              targetId={ targetId }
             />
           ) }
           {showTimer === true ? <Timer
@@ -111,10 +117,10 @@ class TelaJogo extends React.Component {
           /> : null}
           <button
             type="button"
+            data-testid="next"
             onClick={ this.handleNextClick }
           >
             Proxima questão
-
           </button>
         </div>
       </div>

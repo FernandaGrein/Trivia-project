@@ -5,39 +5,36 @@ const ONE_SECOND = 1000;
 const TIME_LIMIT = 0;
 
 class Timer extends React.Component {
-    state = {
-      seconds: 30,
-    }
+  state = {
+    seconds: 30,
+  };
 
-    componentDidMount() {
-      this.intervalId = setInterval(() => {
-        console.log('setInterval');
-        this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
-      }, ONE_SECOND);
-    }
+  componentDidMount() {
+    this.intervalId = setInterval(() => {
+      this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
+    }, ONE_SECOND);
+  }
 
-    componentDidUpdate() {
-      const { seconds } = this.state;
-      const { disabledButton } = this.props;
-      console.log('did update');
-      if (seconds === TIME_LIMIT) {
-        disabledButton();
-        this.componentWillUnmount();
-      }
+  componentDidUpdate() {
+    const { seconds } = this.state;
+    const { disabledButton } = this.props;
+    if (seconds === TIME_LIMIT) {
+      disabledButton();
+      this.componentWillUnmount();
     }
+  }
 
-    componentWillUnmount() {
-      const { seconds } = this.state;
-      const { saveTimer } = this.props;
-      console.log('will unmount', seconds);
-      saveTimer(seconds);
-      clearInterval(this.intervalId);
-    }
+  componentWillUnmount() {
+    const { seconds } = this.state;
+    const { saveTimer } = this.props;
+    saveTimer(seconds);
+    clearInterval(this.intervalId);
+  }
 
-    render() {
-      const { seconds } = this.state;
-      return (<h2>{seconds}</h2>);
-    }
+  render() {
+    const { seconds } = this.state;
+    return <h2>{seconds}</h2>;
+  }
 }
 
 Timer.propTypes = {
