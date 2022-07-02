@@ -34,6 +34,8 @@ class Timer extends React.Component {
     render() {
       const { seconds } = this.state;
       return (<h2>{seconds}</h2>);
+    }
+}
 
 Timer.propTypes = {
   disabledButton: PropTypes.func.isRequired,

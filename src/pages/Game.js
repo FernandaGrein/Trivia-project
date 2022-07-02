@@ -89,7 +89,8 @@ class TelaJogo extends React.Component {
 
   render() {
     const { name, email, placar, token } = this.props;
-    const { index, answers, disabled, showTimer, buttonNext, color, targetId } = this.state;
+    const { index, answers, disabled, showTimer, buttonNext,
+      color, targetId } = this.state;
 
     return (
       <div>

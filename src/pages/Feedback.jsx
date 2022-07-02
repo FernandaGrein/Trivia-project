@@ -11,7 +11,7 @@ class FeedBack extends React.Component {
   componentDidMount() {
     const tres = 3;
     const { points } = this.props;
-    console.log(points);
+
     if (points < tres) {
       this.setState({ message: 'Could be better...' });
     }
@@ -22,8 +22,8 @@ class FeedBack extends React.Component {
 
   render() {
     const { message } = this.state;
-    const { email, name, placar, points } = this.props;
-    console.log(message);
+    const { email, name, placar, points, history } = this.props;
+
     return (
       <div data-testid="feedback-text">
         <header>
@@ -40,6 +40,21 @@ class FeedBack extends React.Component {
           <p data-testid="feedback-total-question">{points}</p>
           <p data-testid="feedback-total-score">{placar}</p>
         </div>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Play Again
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </div>);
   }
 }
@@ -51,6 +66,10 @@ const mapStateToProps = (state) => ({
 });
 
 FeedBack.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+
+  }).isRequired,
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   placar: PropTypes.number.isRequired,
