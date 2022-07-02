@@ -3,7 +3,8 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { quizApi, scoreCounter, saveResposta } from '../redux/actions/index';
+import { quizApi, scoreCounter, saveResposta,
+  countAssertions } from '../redux/actions/index';
 import QuestCard from '../components/QuestCard';
 import Timer from '../components/Timer';
 
@@ -17,6 +18,7 @@ class TelaJogo extends React.Component {
     targetId: 0,
     targetName: '',
     color: false,
+    buttonNext: false,
   }
 
   async componentDidMount() {
@@ -50,7 +52,7 @@ class TelaJogo extends React.Component {
   }
 
   disabledButtonAndTimer = () => {
-    this.setState({ disabled: true, showTimer: false });
+    this.setState({ disabled: true, showTimer: false, buttonNext: true });
   }
 
   saveTimer = (timer) => {
@@ -59,10 +61,10 @@ class TelaJogo extends React.Component {
 
   handleAnswerClick = ({ target }) => {
     const { id, name } = target;
-
+    const { AssertionsCounter } = this.props;
     this.disabledButtonAndTimer();
-
     this.setState({ targetId: id, targetName: name, color: true });
+    AssertionsCounter(id);
   }
 
   counterScore = () => {
@@ -70,7 +72,9 @@ class TelaJogo extends React.Component {
     const { timer, targetId, targetName } = this.state;
     if (targetId === 'certo') {
       countScore(timer, targetName);
+      this.setState({ targetId: 0, targetName: '' });
     }
+    this.setState({ targetId: 0, targetName: '' });
   }
 
   handleNextClick = () => {
@@ -85,7 +89,7 @@ class TelaJogo extends React.Component {
 
   render() {
     const { name, email, placar, token } = this.props;
-    const { index, answers, disabled, showTimer, color, targetId } = this.state;
+    const { index, answers, disabled, showTimer, buttonNext, color, targetId } = this.state;
 
     return (
       <div>
@@ -112,16 +116,18 @@ class TelaJogo extends React.Component {
             />
           ) }
           {showTimer === true ? <Timer
-            disabledButton={ this.disabledButton }
+            disabledButton={ this.disabledButtonAndTimer }
             saveTimer={ this.saveTimer }
           /> : null}
-          <button
-            type="button"
-            data-testid="next"
-            onClick={ this.handleNextClick }
-          >
-            Proxima questão
-          </button>
+          { buttonNext && (
+            <button
+              data-testid="btn-next"
+              type="button"
+              onClick={ this.handleNextClick }
+            >
+              Proxima questão
+
+            </button>)}
         </div>
       </div>
     );
@@ -129,9 +135,9 @@ class TelaJogo extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  name: state.playerReducer.name,
-  email: state.playerReducer.gravatarEmail,
-  placar: state.playerReducer.score,
+  name: state.player.name,
+  email: state.player.gravatarEmail,
+  placar: state.player.score,
   questions: state.gameReducer.questions,
   token: state.gameReducer.token,
 });
@@ -140,6 +146,7 @@ const mapDispatchToProps = (dispatch) => ({
   recebeQuiz: (token) => dispatch(quizApi(token)),
   countScore: (timer, dificuldade) => dispatch(scoreCounter(timer, dificuldade)),
   indexCounter: (json) => dispatch(saveResposta(json)),
+  AssertionsCounter: (status) => dispatch(countAssertions(status)),
 });
 
 TelaJogo.propTypes = {
@@ -154,6 +161,7 @@ TelaJogo.propTypes = {
     push: PropTypes.func.isRequired,
 
   }).isRequired,
+  AssertionsCounter: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TelaJogo);

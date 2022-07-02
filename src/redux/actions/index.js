@@ -3,8 +3,8 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_NAME = 'GET_NAME';
 export const GET_EMAIL = 'GET_EMAIL';
 export const COUNT_SCORE = 'COUNT_SCORE';
-export const INICIAL_SCORE = 'INICIAL_SCORE';
 export const COUNTER_INDEX = 'COUNTER_INDEX';
+export const COUNT_ASSERTIONS = 'COUNT_ASSERTIONS';
 
 const HARD_QUESTIONS = 3;
 const MEDIUM_QUESTIONS = 2;
@@ -42,27 +42,25 @@ export const saveResposta = (resposta) => ({
   payload: resposta,
 });
 
+export const countAssertions = (status) => ({
+  type: COUNT_ASSERTIONS,
+  payload: status,
+});
+
 export const scoreCounter = (timer, dificuldade) => (dispatch) => {
   let num = 1;
 
   if (dificuldade === 'hard') {
     num = HARD_QUESTIONS;
-    console.log('if hard', num);
   }
   if (dificuldade === 'medium') {
     num = MEDIUM_QUESTIONS;
-    console.log('medium if');
   }
   if (dificuldade === 'easy') {
-    console.log('easy if');
     num = EASY_QUESTIONS;
   }
   return dispatch(count(timer, num));
 };
-
-export const inicialScore = () => ({
-  type: INICIAL_SCORE,
-});
 
 export const fetchApi = () => async (dispatch) => {
   try {
