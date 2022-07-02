@@ -1,4 +1,4 @@
-import { GET_NAME, COUNT_SCORE, GET_EMAIL, INICIAL_SCORE } from '../actions';
+import { GET_NAME, COUNT_SCORE, GET_EMAIL, COUNT_ASSERTIONS } from '../actions';
 
 const FIXED_VALUE = 10;
 
@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-const playerReducer = (state = INITIAL_STATE, action) => {
+const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_NAME:
     return {
@@ -22,21 +22,23 @@ const playerReducer = (state = INITIAL_STATE, action) => {
       ...state,
       gravatarEmail: action.payload,
     };
-  case INICIAL_SCORE:
-    return {
-      ...state,
-      score: 0,
-    };
   case COUNT_SCORE:
     return {
       ...state,
       score: state.score + FIXED_VALUE + (action
         .payload.timer * action.payload.num),
     };
-
+  case COUNT_ASSERTIONS:
+    if (action.payload === 'certo') {
+      return {
+        ...state,
+        assertions: state.assertions + 1,
+      };
+    }
+    return { ...state };
   default:
     return state;
   }
 };
 
-export default playerReducer;
+export default player;

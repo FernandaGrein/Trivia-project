@@ -11,7 +11,6 @@ class Timer extends React.Component {
 
     componentDidMount() {
       this.intervalId = setInterval(() => {
-        console.log('setInterval');
         this.setState((prevState) => ({ seconds: prevState.seconds - 1 }));
       }, ONE_SECOND);
     }
@@ -19,7 +18,6 @@ class Timer extends React.Component {
     componentDidUpdate() {
       const { seconds } = this.state;
       const { disabledButton } = this.props;
-      console.log('did update');
       if (seconds === TIME_LIMIT) {
         disabledButton();
         this.componentWillUnmount();
@@ -29,7 +27,6 @@ class Timer extends React.Component {
     componentWillUnmount() {
       const { seconds } = this.state;
       const { saveTimer } = this.props;
-      console.log('will unmount', seconds);
       saveTimer(seconds);
       clearInterval(this.intervalId);
     }
