@@ -4,6 +4,7 @@ import Game from '../pages/Game';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import { data } from './helpers/dataMocks';
 
 describe('Testa o componente Game', () => {
     it('Teste se imagem do Gravatar', () => {      
@@ -28,17 +29,8 @@ describe('Testa o componente Game', () => {
     });
 
      it('testa se a pergunta é renderizada na tela', async () => {
+
       renderWithRouterAndRedux(<Game />);
-      // jest.spyOn(global,'fetch').mockResolvedValue({
-      //   json: async () => ({
-      //     category: "History",
-      //     correct_answer: "Philip V",
-      //     difficulty: "hard",
-      //     incorrect_answers: ['Charles V', 'Philip II', 'Francis Joseph'],
-      //     question: "Which one of these rulers did not belong to the Habsburg dynasty?",
-      //     type: "multiple"
-      // })
-      // })
       const questionEl = await screen.findByTestId('question-text')
       const answerEl1 = await screen.findByTestId('wrong-answer-0')
       // const answerEl2 = await screen.findByTestId('wrong-answer-1')
@@ -72,24 +64,8 @@ describe('Testa o componente Game', () => {
       userEvent.click(correctAnswerEl)
 
       expect(wrongAnswerEl).toHaveClass('red')
-      // expect(correctAnswerEl).toHaveClass('green')
+      expect(correctAnswerEl).toHaveClass('green')
     })
-
-    jest.useFakeTimers();
-    it('testa se temporizador das questões', async () => {
-    renderWithRouterAndRedux(<Game />);
-    const timer = await screen.findByText('30')
-    expect(timer).toBeInTheDocument();
-
-    jest.advanceTimersByTime(30000)
-
-    const wrongAnswerEl = await screen.findByTestId('wrong-answer-0')
-    const correctAnswerEl = await screen.findByTestId('correct-answer')
-    expect(correctAnswerEl).toBeDisabled();
-    expect(wrongAnswerEl).toBeDisabled();
-
-    jest.clearAllTimers()
-  })
 
   it('testa se ao final de 4 rodadas o botão next redireciona para a página feedback', async () => {
     jest.clearAllTimers()
@@ -102,7 +78,7 @@ describe('Testa o componente Game', () => {
     const playButton = await screen.findByRole('button', { name: /^play$/i });
     userEvent.click(playButton)
 
-    // const wrongAnswerEl = await screen.findByTestId('wrong-answer-0')
+    const wrongAnswerEl = await screen.findByTestId('wrong-answer-0')
     const correctAnswerEl = await screen.findByTestId('correct-answer')
     userEvent.click(correctAnswerEl);
 
@@ -115,7 +91,7 @@ describe('Testa o componente Game', () => {
     userEvent.click(correctAnswerEl);
     userEvent.click(nextButtonEl);
 
-    userEvent.click(correctAnswerEl);
+    userEvent.click(wrongAnswerEl);
     userEvent.click(nextButtonEl);
 
     userEvent.click(correctAnswerEl);
@@ -127,3 +103,22 @@ describe('Testa o componente Game', () => {
   })
 
 });
+
+describe('testa o temporizado', () => {
+  jest.useFakeTimers();
+  it('testa se temporizador das questões', async () => {
+  renderWithRouterAndRedux(<Game />);
+  const timer = await screen.findByText('30')
+  expect(timer).toBeInTheDocument();
+
+  jest.advanceTimersByTime(30000)
+
+  const wrongAnswerEl = await screen.findByTestId('wrong-answer-0')
+  const correctAnswerEl = await screen.findByTestId('correct-answer')
+  expect(correctAnswerEl).toBeDisabled();
+  expect(wrongAnswerEl).toBeDisabled();
+
+  jest.clearAllTimers()
+})
+
+})
