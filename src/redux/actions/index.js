@@ -5,6 +5,7 @@ export const GET_EMAIL = 'GET_EMAIL';
 export const COUNT_SCORE = 'COUNT_SCORE';
 export const COUNTER_INDEX = 'COUNTER_INDEX';
 export const COUNT_ASSERTIONS = 'COUNT_ASSERTIONS';
+export const RESET_GAME = 'RESET_GAME';
 
 const HARD_QUESTIONS = 3;
 const MEDIUM_QUESTIONS = 2;
@@ -84,3 +85,7 @@ export const quizApi = (token) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const resetGame = () => ({
+  type: RESET_GAME,
+});
