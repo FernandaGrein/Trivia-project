@@ -26,33 +26,35 @@ class TelaJogo extends React.Component {
     await recebeQuiz(token);
     const { questions } = this.props;
 
-    const newArray = questions.reduce((acc, item) => {
-      const responseObj = {
-        pergunta: item.question,
-        categoria: item.category,
-        difficulty: item.difficulty,
-        respostaCerta: { test: 'correct-answer',
-          resp: item.correct_answer,
-          status: 'certo',
-        },
-        respostaFalsa: item.incorrect_answers
-          .map((AddErr, index) => ({ test: `wrong-answer-${index}`,
-            resp: AddErr,
-            status: 'errado',
-          })),
-      };
-      const responseObj2 = { ...responseObj,
-        totalResp: [...responseObj.respostaFalsa, responseObj
-          .respostaCerta] };
-      acc = [...acc, responseObj2];
-      return acc;
-    }, []);
+    if (questions) {
+      const newArray = questions.reduce((acc, item) => {
+        const responseObj = {
+          pergunta: item.question,
+          categoria: item.category,
+          difficulty: item.difficulty,
+          respostaCerta: { test: 'correct-answer',
+            resp: item.correct_answer,
+            status: 'certo',
+          },
+          respostaFalsa: item.incorrect_answers
+            .map((AddErr, index) => ({ test: `wrong-answer-${index}`,
+              resp: AddErr,
+              status: 'errado',
+            })),
+        };
+        const responseObj2 = { ...responseObj,
+          totalResp: [...responseObj.respostaFalsa, responseObj
+            .respostaCerta] };
+        acc = [...acc, responseObj2];
+        return acc;
+      }, []);
 
-    this.setState({ answers: newArray });
+      this.setState({ answers: newArray });
+    }
   }
 
   disabledButtonAndTimer = () => {
-    this.setState({ disabled: true, showTimer: false, buttonNext: true });
+    this.setState({ disabled: true, showTimer: false, buttonNext: true, color: true });
   }
 
   saveTimer = (timer) => {
@@ -63,7 +65,7 @@ class TelaJogo extends React.Component {
     const { id, name } = target;
     const { AssertionsCounter } = this.props;
     this.disabledButtonAndTimer();
-    this.setState({ targetId: id, targetName: name, color: true });
+    this.setState({ targetId: id, targetName: name });
     AssertionsCounter(id);
   }
 
@@ -91,7 +93,6 @@ class TelaJogo extends React.Component {
     const { name, email, placar, token } = this.props;
     const { index, answers, disabled, showTimer, buttonNext,
       color, targetId } = this.state;
-
     return (
       <div>
         <header>

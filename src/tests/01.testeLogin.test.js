@@ -34,7 +34,6 @@ describe('Testa o componente Login', () => {
 
         await userEvent.type(email, 'teste@teste')
         await userEvent.type(nome, 'maria')
-        console.log(nome, 'input');
 
         const button = await screen.findByRole('button', { name: /^play$/i });
         expect(button).toBeInTheDocument();
@@ -80,6 +79,6 @@ describe('Testa o componente Login', () => {
         expect(nameEl).toBeInTheDocument();
 
          expect(history.location.pathname).toBe('/game');
-      });
+    });
 
 });
