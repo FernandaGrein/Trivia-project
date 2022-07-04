@@ -32,6 +32,7 @@ class Ranking extends React.Component {
     }
     localStorage.setItem('ranking', JSON.stringify(sortedRanking));
 
+  render() {
     return (
       <div>
         <header>
