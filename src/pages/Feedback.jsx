@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import './Feedback.css';
 
 class FeedBack extends React.Component {
   state = {
@@ -24,7 +25,7 @@ class FeedBack extends React.Component {
     const { email, name, placar, points, history } = this.props;
 
     return (
-      <div>
+      <div className="feed">
         <header>
           <img
             src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
@@ -43,6 +44,7 @@ class FeedBack extends React.Component {
           type="button"
           data-testid="btn-play-again"
           onClick={ () => history.push('/') }
+          className="btn"
         >
           Play Again
         </button>
@@ -51,6 +53,7 @@ class FeedBack extends React.Component {
           type="button"
           data-testid="btn-ranking"
           onClick={ () => history.push('/ranking') }
+          className="btn"
         >
           Ranking
         </button>

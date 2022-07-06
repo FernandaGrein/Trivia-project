@@ -7,6 +7,7 @@ import { quizApi, scoreCounter, saveResposta,
   countAssertions } from '../redux/actions/index';
 import QuestCard from '../components/QuestCard';
 import Timer from '../components/Timer';
+import './Game.css';
 
 class TelaJogo extends React.Component {
   state = {
@@ -104,7 +105,7 @@ class TelaJogo extends React.Component {
           <p data-testid="header-player-name">{name || ''}</p>
           <p data-testid="header-score">{placar || 0}</p>
         </header>
-        <div>
+        <div className="jogo">
           { token === 'INVALID_TOKEN' && (
             localStorage.removeItem('token'), <Redirect to="/" />
           )}
@@ -126,6 +127,7 @@ class TelaJogo extends React.Component {
               data-testid="btn-next"
               type="button"
               onClick={ this.handleNextClick }
+              className="btnNext"
             >
               Proxima questão
 

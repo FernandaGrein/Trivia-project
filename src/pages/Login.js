@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchApi, saveName, saveEmail, quizApi } from '../redux/actions/index';
+import './Login.css';
 
 class Login extends React.Component {
     state = {
@@ -40,7 +41,7 @@ class Login extends React.Component {
     render() {
       const { name, email } = this.state;
       return (
-        <div>
+        <div className="login">
           <h3>Login</h3>
           <label htmlFor="name">
             Nome:
@@ -71,6 +72,7 @@ class Login extends React.Component {
             type="button"
             disabled={ this.enableButton() }
             onClick={ this.handleClick }
+            className="btn-player"
           >
             Play
           </button>
@@ -82,7 +84,8 @@ class Login extends React.Component {
           >
             settings
           </button>
-        </div>);
+        </div>
+      );
     }
 }
 

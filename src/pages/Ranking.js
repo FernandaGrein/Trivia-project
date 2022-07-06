@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { resetGame } from '../redux/actions';
+import './Ranking.css';
 
 class Ranking extends React.Component {
   redirectLogin = () => {
@@ -33,13 +34,13 @@ class Ranking extends React.Component {
     localStorage.setItem('ranking', JSON.stringify(sortedRanking));
 
     return (
-      <div>
+      <div className="ranking">
         <header>
           <h1 data-testid="ranking-title">Ranking</h1>
         </header>
         <section>
           {sortedRanking.map((player, index) => (
-            <div key={ index }>
+            <div className="foto" key={ index }>
               <img
                 src={ this.getGravatar(player.picture) }
                 alt="gravatar"
@@ -63,6 +64,7 @@ class Ranking extends React.Component {
             type="button"
             name="btn-go-home"
             onClick={ this.redirectLogin }
+            className="btnLogin"
           >
             Login
           </button>
