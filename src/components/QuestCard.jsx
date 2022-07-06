@@ -55,7 +55,7 @@ QuestCard.propTypes = {
     totalResp: PropTypes.arrayOf(Object),
   }).isRequired,
   handleAskClick: PropTypes.func.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 

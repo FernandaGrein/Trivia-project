@@ -19,53 +19,43 @@ class FeedBack extends React.Component {
     }
   }
 
-  logClick = () => {
-    const { history } = this.props;
-    history.push('/');
+  render() {
+    const { message } = this.state;
+    const { email, name, placar, points, history } = this.props;
+
+    return (
+      <div>
+        <header>
+          <img
+            src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+            alt={ email }
+            data-testid="header-profile-picture"
+          />
+          <p data-testid="header-player-name">{ name }</p>
+          <p data-testid="header-score">{ placar }</p>
+          <p data-testid="feedback-text">{message}</p>
+        </header>
+        <div>
+          <p data-testid="feedback-total-question">{points}</p>
+          <p data-testid="feedback-total-score">{placar}</p>
+        </div>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Play Again
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
+      </div>);
   }
-
-    redirectRanking = () => {
-      const { history } = this.props;
-      history.push('/ranking');
-    }
-
-    render() {
-      const { message } = this.state;
-      const { email, name, placar, points } = this.props;
-
-      return (
-        <div data-testid="feedback-text">
-          <header>
-            <img
-              src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
-              alt={ email }
-              data-testid="header-profile-picture"
-            />
-            <p data-testid="header-player-name">{ name }</p>
-            <p data-testid="header-score">{ placar }</p>
-            <p data-testid="feedback-text">{message}</p>
-          </header>
-          <div>
-            <p data-testid="feedback-total-question">{points}</p>
-            <p data-testid="feedback-total-score">{placar}</p>
-          </div>
-          <button
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ this.logClick }
-          >
-            Play Again
-          </button>
-
-          <button
-            type="button"
-            data-testid="btn-ranking"
-            onClick={ this.redirectRanking }
-          >
-            Ranking
-          </button>
-        </div>);
-    }
 }
 const mapStateToProps = (state) => ({
   name: state.player.name,

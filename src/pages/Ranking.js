@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { resetGame } from '../redux/actions';
@@ -32,7 +32,6 @@ class Ranking extends React.Component {
     }
     localStorage.setItem('ranking', JSON.stringify(sortedRanking));
 
-  render() {
     return (
       <div>
         <header>
@@ -47,6 +46,7 @@ class Ranking extends React.Component {
               />
               <p
                 data-testid={ `player-name-${index}` }
+                aria-label="playerName"
               >
                 {player.name}
 
@@ -73,11 +73,13 @@ class Ranking extends React.Component {
 }
 
 Ranking.propTypes = {
-  history: propTypes.shape().isRequired,
-  dispatch: propTypes.func.isRequired,
-  userName: propTypes.string.isRequired,
-  userEmail: propTypes.string.isRequired,
-  scorePlayer: propTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  scorePlayer: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
