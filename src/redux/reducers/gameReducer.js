@@ -1,4 +1,4 @@
-import { GET_TOKEN, FETCH_QUESTIONS, GET_RESPOSTA } from '../actions';
+import { GET_TOKEN, FETCH_QUESTIONS, GET_ANSWER } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -18,7 +18,7 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   case FETCH_QUESTIONS:
     return { ...state,
       questions: payload.results };
-  case GET_RESPOSTA:
+  case GET_ANSWER:
     return {
       ...state,
     };

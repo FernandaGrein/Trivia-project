@@ -1,21 +1,21 @@
 .feed {
-    width: 600px;
-    height: 400px;
-    background: #fff;
-    margin: 80px auto;
-    padding: 5px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 1.2rem;
+  width: 600px;
+  height: 400px;
+  background: #fff;
+  margin: 80px auto;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
 }
 
 .btn {
-    padding: 5px;
-    border-radius: 5px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .btn:hover {
-    cursor: pointer;
-    background: #186384;
-    color: #fff;
+  cursor: pointer;
+  background: #186384;
+  color: #fff;
 }

@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import './Feedback.css';
+import { resetGame } from '../redux/actions';
 
 class FeedBack extends React.Component {
   state = {
@@ -18,6 +19,12 @@ class FeedBack extends React.Component {
     if (points >= tres) {
       this.setState({ message: 'Well Done!' });
     }
+  }
+
+  redirectLogin = () => {
+    const { history, dispatch } = this.props;
+    dispatch(resetGame());
+    history.push('/');
   }
 
   render() {
@@ -43,7 +50,7 @@ class FeedBack extends React.Component {
         <button
           type="button"
           data-testid="btn-play-again"
-          onClick={ () => history.push('/') }
+          onClick={ this.redirectLogin }
           className="btn"
         >
           Play Again
@@ -60,12 +67,14 @@ class FeedBack extends React.Component {
       </div>);
   }
 }
+
 const mapStateToProps = (state) => ({
   name: state.player.name,
   email: state.player.gravatarEmail,
   placar: state.player.score,
   points: state.player.assertions,
 });
+
 FeedBack.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -74,5 +83,6 @@ FeedBack.propTypes = {
   email: PropTypes.string.isRequired,
   placar: PropTypes.number.isRequired,
   points: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps)(FeedBack);

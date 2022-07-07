@@ -1,29 +1,29 @@
-.ranking{
-    width: 400px;
-    height: auto;
-    background: #fff;
-    margin: 0px auto;
-    padding: 10px;
-    border: 1px solid #ccc;
-    font-size: 1.2rem;
+.ranking {
+  width: 400px;
+  height: auto;
+  background: #fff;
+  margin: 0px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
 }
 
 .ranking > h1 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .foto > img {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .btnLogin {
-    width: 100px;
-    padding: 5px;
-    border-radius: 5px;
+  width: 100px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .btnLogin:hover {
-    cursor: pointer;
-    background: #186384;
-    color: #fff;
+  cursor: pointer;
+  background: #186384;
+  color: #fff;
 }

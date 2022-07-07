@@ -1,29 +1,29 @@
 header {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 header > img {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .jogo {
-    width: 800px;
-    height: 280px;
-    margin: 0px auto;
-    background: #fff;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 20px;
-    font-size: 1.2rem;
+  width: 800px;
+  height: 280px;
+  margin: 0px auto;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  font-size: 1.2rem;
 }
 
 .jogo > .btnNext {
-    border-radius: 5px;
-    padding: 5px;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .jogo > .btnNext:hover {
-    cursor: pointer;
-    background: #186384;
-    color: #fff;
+  cursor: pointer;
+  background: #186384;
+  color: #fff;
 }

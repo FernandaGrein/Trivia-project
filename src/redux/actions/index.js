@@ -11,7 +11,7 @@ const HARD_QUESTIONS = 3;
 const MEDIUM_QUESTIONS = 2;
 const EASY_QUESTIONS = 1;
 
-export const GET_RESPOSTA = 'GET_RESPOSTA';
+export const GET_ANSWER = 'GET_ANSWER';
 
 export const ADD_QUESTIONS = (param) => ({
   type: FETCH_QUESTIONS,
@@ -38,9 +38,9 @@ export const count = (timer, num) => ({
   payload: { timer, num },
 });
 
-export const saveResposta = (resposta) => ({
-  type: GET_RESPOSTA,
-  payload: resposta,
+export const saveAnswer = (answer) => ({
+  type: GET_ANSWER,
+  payload: answer,
 });
 
 export const countAssertions = (status) => ({
@@ -78,7 +78,7 @@ export const quizApi = (token) => async (dispatch) => {
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const json = await response.json();
-    await dispatch(saveResposta(json));
+    await dispatch(saveAnswer(json));
 
     return dispatch(ADD_QUESTIONS(json));
   } catch (error) {

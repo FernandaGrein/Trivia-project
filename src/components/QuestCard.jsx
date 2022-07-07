@@ -20,12 +20,11 @@ class QuestCard extends React.Component {
 
     return (
       <>
-        <p data-testid="question-text">{question.pergunta}</p>
+        <p data-testid="question-text">{question.question}</p>
         <p>{question.difficulty}</p>
-        <p data-testid="question-category">{question.categoria}</p>
+        <p data-testid="question-category">{question.category}</p>
         <div data-testid="answer-options">
           {question.totalResp
-            .sort(() => Math.round(Math.random()) * 2 - 1)
             .map((item, index) => (
               <button
                 key={ index }
@@ -49,8 +48,8 @@ class QuestCard extends React.Component {
 }
 QuestCard.propTypes = {
   question: PropTypes.shape({
-    pergunta: PropTypes.string,
-    categoria: PropTypes.string,
+    question: PropTypes.string,
+    category: PropTypes.string,
     difficulty: PropTypes.string,
     totalResp: PropTypes.arrayOf(Object),
   }).isRequired,
